@@ -85,7 +85,54 @@ from utils.utils import relabel_instance, pair_labels
 # ================================
 # remap labels
 # ================================
+
+
+
 import json
+
+
+def remap_label_matching_GT(pred_file_path,target_file_path):
+    pred_embryo = nib_load(pred_file_path).astype(np.int16)
+    target_embryo = nib_load(target_file_path).astype(np.int16)
+    pred2target = pair_labels(pred_embryo, target_embryo)
+    print('prediction seg to ground truth pair list ', pred2target)
+
+    target_max = target_embryo.max()
+    pred_id_list = list(np.unique(pred_embryo))[1:]
+    target_id_list = list(np.unique(target_embryo))[1:]
+
+    out = np.zeros_like(pred_embryo)
+    left_labels = pred_id_list.copy()
+    for pred_id, target_id in pred2target.items():
+        overlap_mask = np.logical_and(pred_embryo == pred_id, target_embryo == target_id)
+        # # check if all segmented in background
+        # overlap_mask_with_0 = np.logical_and(pred_embryo == pred_id, target_embryo == 0)
+        #
+        #
+        # if (overlap_mask_with_0.sum()+3)> (pred_embryo == pred_id).sum():
+        #     print(pred_id,target_id)
+        #     print(overlap_mask_with_0.sum())
+        #     print((pred_embryo == pred_id).sum())
+        #     left_labels.remove(pred_id)
+        #     this_mapping_dict[int(0)] = int(pred_id)
+        #
+        #     continue
+
+        if overlap_mask.sum() == 0:
+            continue
+        left_labels.remove(pred_id)
+        out[pred_embryo == pred_id] = target_id
+        this_mapping_dict[int(target_id)] = int(pred_id)
+    if len(left_labels) > 0:
+        for left_label in left_labels:
+            target_max += 1
+            out[pred_embryo == left_label] = target_max
+            this_mapping_dict[int(target_max)] = int(left_label)
+
+    with open(pred_file_path.replace(".nii.gz", ".txt"), 'w') as f:
+        f.write(json.dumps(this_mapping_dict))
+    save_file = pred_file_path.replace(".nii.gz", "_uni.nii.gz")
+    nib_save(save_file, out.astype(np.int16))
 
 source_folder = "F:\CMap_paper\CMapEvaluation"
 # # change this when you are working on validation
