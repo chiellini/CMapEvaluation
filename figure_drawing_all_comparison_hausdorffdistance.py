@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import glob
 
 # Replace these with the names of your CSV files
-evaluation_path = r'F:\CMap_paper\Code\Evaluation\Results\Comparison'
+evaluation_path = r'/Results/Comparison_pre'
 evaluation_file_paths = glob.glob(os.path.join(evaluation_path, '*_hausdorff_distance.csv'))
 
 # Replace these with the names of the columns you want to use for the x and y axes
@@ -54,7 +54,7 @@ for file_path in evaluation_file_paths:
     hdistance_this_data = hdistance_this_data[hdistance_this_data[y_column_name] < 2000]
     print(hdistance_this_data)
 
-    hdistance_this_data[y_column_name] = hdistance_this_data[y_column_name] * 0.25 ** 3
+    hdistance_this_data[y_column_name] = hdistance_this_data[y_column_name] * 0.25
     hdistance_this_data['RealEmbryoName'] = hdistance_this_data['EmbryoName']
 
     for key, value in embryo_namess.items():
@@ -345,7 +345,7 @@ plt.gcf().text(0.88, 0.723, r' $ p \leq 0.05 $', fontsize=10)
 plt.gcf().text(0.85, 0.66, '***', fontsize=14)
 plt.gcf().text(0.88, 0.68, r' $ p \leq 0.001 $', fontsize=10)
 
-# plt.title(' Segmentation Comparison', size = 24 )
+# plt.title(' Segmentation Comparison_pre', size = 24 )
 
 # plt.show()
 

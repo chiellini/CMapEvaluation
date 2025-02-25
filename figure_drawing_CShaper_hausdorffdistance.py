@@ -57,7 +57,7 @@ for file_path in evaluation_file_paths:
 
     score_this_data = score_this_data[score_this_data[y_column_name] > 1]
     score_this_data = score_this_data[score_this_data[y_column_name] < 20]
-    score_this_data[y_column_name] = score_this_data[y_column_name]*0.25**3
+    score_this_data[y_column_name] = score_this_data[y_column_name]*0.18
     print(score_this_data)
 
     for key, value in embryo_namess.items():

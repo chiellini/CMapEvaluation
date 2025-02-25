@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import glob
 
 # Replace these with the names of your CSV files
-evaluation_path = r'F:\CMap_paper\Code\Evaluation\Results\Comparison'
+evaluation_path = r'/Results/Comparison_pre'
 evaluation_file_paths = glob.glob(os.path.join(evaluation_path, '*_score.csv'))
 
 # Replace these with the names of the columns you want to use for the x and y axes
@@ -398,7 +398,7 @@ plt.gcf().text(0.88, 0.723, r' $ p \leq 0.05 $', fontsize=10)
 plt.gcf().text(0.85, 0.66, '***', fontsize=14)
 plt.gcf().text(0.88, 0.68, r' $ p \leq 0.001 $', fontsize=10)
 
-# plt.title(' Segmentation Comparison', size = 24 )
+# plt.title(' Segmentation Comparison_pre', size = 24 )
 out.savefig('text.pdf', dpi=300)
 
 # # ======================calculate the fucking p -value confidence====================================
